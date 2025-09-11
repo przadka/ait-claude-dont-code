@@ -1,0 +1,15 @@
+# Private keys and certificates
+*.pem
+*.key
+*.crt
+
+# VPN configuration files
+*.conf
+
+# Shell scripts (may contain sensitive info)
+*.sh
+# Except presentation startup script
+!start-presentation.sh
+
+# AWS and other cloud provider files
+AWS-*.md
