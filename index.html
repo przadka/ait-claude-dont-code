@@ -12,6 +12,22 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/dracula.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/monokai.min.css">
+
+		<style>
+			/* Make code blocks larger and avoid scrollbars without extra empty space */
+			.reveal pre.code-wide {
+				width: 100%;
+				padding-top: 0.25em;
+				padding-bottom: 0.25em;
+				margin: 0;
+			}
+			.reveal pre.code-wide code {
+				font-size: 0.85em;
+				line-height: 1.2; /* tighter line height to fit more lines */
+				white-space: pre-wrap; /* wrap long lines to avoid horizontal scroll */
+				word-break: break-word;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
@@ -88,6 +104,30 @@
 					<img src="agentic-workflow-aie.png" alt="Applications Can Get Complex - Agentic Workflow" style="max-height: 80vh; width: auto;">
 				</section>
 
+				<!-- New code example slide (inserted after slide 15) -->
+				<section>
+					<pre class="code-wide r-stretch"><code class="hljs python" data-trim>
+from claude_code_sdk import ClaudeSDKClient, ClaudeCodeOptions
+
+  async def research_agent():
+      options = ClaudeCodeOptions(
+          system_prompt="Research assistant with access to qualitative data.",
+          mcp_servers={"qualbot": {"command": "qualbot-mcp"}},
+          allowed_tools=["mcp__qualbot__query", "mcp__qualbot__status"]
+      )
+
+      async with ClaudeSDKClient(options=options) as client:
+          while True:
+              query = input("Research question: ")
+              await client.query(query)
+
+              async for response in client.receive_response():
+                  print(response.content)
+
+  asyncio.run(research_agent())
+					</code></pre>
+				</section>
+
 				<section>
 					<ul>
 						<li>Intent recognition / routing</li>
@@ -117,6 +157,9 @@
 			Reveal.initialize({
 				hash: true,
 				transition: 'slide',
+				width: 1280,   // slightly larger canvas for code
+				height: 800,
+				margin: 0,      // remove outer margin to maximize usable space
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 			});
 		</script>
